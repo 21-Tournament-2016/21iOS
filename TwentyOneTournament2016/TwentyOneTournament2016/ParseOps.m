@@ -245,7 +245,7 @@ static ParseOps *sharedOps = nil;
     NSString *player1 = parseTeam[@"player1"];
     NSString *player2 = parseTeam[@"player2"];
     NSString *player3 = parseTeam[@"player3"];
-    NSMutableArray *schedule = [self getRoundSchedule:@10 forTeam:team];
+    NSMutableArray *schedule = [self getRoundSchedule:@11 forTeam:team];
     
     return [[TeamDetails alloc] init:wins losses:losses cupDifferential:CD season:seasons player1:player1 player2:player2 player3:player3 schedule:schedule];
 }
