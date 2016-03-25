@@ -177,46 +177,46 @@ class gamePopup: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate{
     
     //Submit button. Send updated match results to Parse.
     @IBAction func closeBtn(sender: AnyObject) {
-        
-        #if PLEB_VERSION
+//        
+//        #if PLEB_VERSION
             let alertView = UIAlertController(title: "No plebs allowed", message: "You are a pleb so you can't change scores.", preferredStyle: .Alert)
             alertView.addAction(UIAlertAction(title: "Ok", style: .Default, handler: nil))
             presentViewController(alertView, animated: true, completion: nil)
-        #else
-        //Make sure a winner is selected
-        if winner == 0{
-            let alert = UIAlertController(title: "Select Winner", message: "You must select a winner before submitting a match result.", preferredStyle: UIAlertControllerStyle.Alert)
-            alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.Default, handler: nil))
-            self.presentViewController(alert, animated: true, completion: nil)
-        }
-        
-        
-        //Make sure cup differential is selected
-        if cupDifferential == 0{
-            let alert = UIAlertController(title: "Set Cup Differential", message: "You must set the cup differential before submitting a match result.", preferredStyle: UIAlertControllerStyle.Alert)
-            alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.Default, handler: nil))
-            self.presentViewController(alert, animated: true, completion: nil)
-        }
-        
-        
-        //Submit updated result to Parse if winner and cup differential have been set
-        if winner != 0 && cupDifferential != 0 {
-            dispatch_async(dispatch_get_global_queue(QOS_CLASS_UTILITY, 0), {
-                print("Saving match result...")
-                ParseOps.sharedOps().saveMatch(self.matchId, winner: self.winner, cd: self.cupDifferential)
-                dispatch_async(dispatch_get_main_queue(), {
-                    if (self.delegate != nil) {
-                        self.delegate!.myVCDidFinish(self)
-                        self.dismissViewControllerAnimated(true, completion: nil)
-                    }
-                })
-            })
-         
-            
-        }
-        
-        #endif
-        
+//        #else
+//        //Make sure a winner is selected
+//        if winner == 0{
+//            let alert = UIAlertController(title: "Select Winner", message: "You must select a winner before submitting a match result.", preferredStyle: UIAlertControllerStyle.Alert)
+//            alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.Default, handler: nil))
+//            self.presentViewController(alert, animated: true, completion: nil)
+//        }
+//        
+//        
+//        //Make sure cup differential is selected
+//        if cupDifferential == 0{
+//            let alert = UIAlertController(title: "Set Cup Differential", message: "You must set the cup differential before submitting a match result.", preferredStyle: UIAlertControllerStyle.Alert)
+//            alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.Default, handler: nil))
+//            self.presentViewController(alert, animated: true, completion: nil)
+//        }
+//        
+//        
+//        //Submit updated result to Parse if winner and cup differential have been set
+//        if winner != 0 && cupDifferential != 0 {
+//            dispatch_async(dispatch_get_global_queue(QOS_CLASS_UTILITY, 0), {
+//                print("Saving match result...")
+//                ParseOps.sharedOps().saveMatch(self.matchId, winner: self.winner, cd: self.cupDifferential)
+//                dispatch_async(dispatch_get_main_queue(), {
+//                    if (self.delegate != nil) {
+//                        self.delegate!.myVCDidFinish(self)
+//                        self.dismissViewControllerAnimated(true, completion: nil)
+//                    }
+//                })
+//            })
+//         
+//            
+//        }
+//        
+//        #endif
+//
     }
     
 }

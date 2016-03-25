@@ -38,36 +38,45 @@ class PlayoffsPageViewController: UIPageViewController, UIPageViewControllerDele
             print("Getting Standings...")
             self.schedule = ParseOps.sharedOps().getPlayoffs()
             dispatch_async(dispatch_get_main_queue(), {
-                let p1 = self.storyboard?.instantiateViewControllerWithIdentifier("R1") as! PlayoffsR1
-                p1.matches = self.schedule[0].matches
-                let p2 = self.storyboard?.instantiateViewControllerWithIdentifier("R2") as! PlayoffsR2
-                p2.matches = self.schedule[1].matches
-                let p3 = self.storyboard?.instantiateViewControllerWithIdentifier("R3") as! PlayoffsR3
-                p3.matches = self.schedule[2].matches
-                let p4 = self.storyboard?.instantiateViewControllerWithIdentifier("R4") as! PlayoffsR4
-                p4.matches = self.schedule[3].matches
-                let p5 = self.storyboard?.instantiateViewControllerWithIdentifier("R5") as! PlayoffsR5
-                if p4.matches[0].winner == 1{
-                    p5.winner = p4.matches[0].team1
+                if (self.schedule[0].matches!.count > 0){
+                    let p1 = self.storyboard?.instantiateViewControllerWithIdentifier("R1") as! PlayoffsR1
+                    p1.matches = self.schedule[0].matches
+                    let p2 = self.storyboard?.instantiateViewControllerWithIdentifier("R2") as! PlayoffsR2
+                    p2.matches = self.schedule[1].matches
+                    let p3 = self.storyboard?.instantiateViewControllerWithIdentifier("R3") as! PlayoffsR3
+                    p3.matches = self.schedule[2].matches
+                    let p4 = self.storyboard?.instantiateViewControllerWithIdentifier("R4") as! PlayoffsR4
+                    p4.matches = self.schedule[3].matches
+                    let p5 = self.storyboard?.instantiateViewControllerWithIdentifier("R5") as! PlayoffsR5
+                    if p4.matches.count != 0{
+                        if p4.matches[0].winner == 1{
+                            p5.winner = p4.matches[0].team1
+                        }
+                        else if p4.matches[0].winner == 2{
+                            p5.winner = p4.matches[0].team2
+                        }
+                    }
+                    
+                    self.myViewControllers = [p1,p2,p3,p4,p5]
+                    
+                    
+                    for index in 0 ..< self.myViewControllers.count {
+                        NSLog("\(self.myViewControllers[index])")
+                    }
+                    
+                    let startingViewController = self.viewControllerAtIndex(0)
+                    let viewControllers: NSArray = [startingViewController]
+                    
+                    self.setViewControllers(viewControllers as! [UIViewController], direction: UIPageViewControllerNavigationDirection.Forward, animated: true, completion: {(done: Bool) in
+                    })
+                    
+                    NSLog("loaded!");
                 }
-                else if p4.matches[0].winner == 2{
-                    p5.winner = p4.matches[0].team2
+                else{
+                    let alert = UIAlertController(title: "Playoffs???", message: "Playoffs haven't started yet ya dumdum.  Please press back because I am too lazy to do that for you", preferredStyle: UIAlertControllerStyle.Alert)
+                    alert.addAction(UIAlertAction(title: "Sorry, boss", style: UIAlertActionStyle.Default, handler: nil))
+                    self.presentViewController(alert, animated: true, completion: nil)
                 }
-                
-                self.myViewControllers = [p1,p2,p3,p4,p5]
-                
-                
-                for index in 0 ..< self.myViewControllers.count {
-                    NSLog("\(self.myViewControllers[index])")
-                }
-                
-                let startingViewController = self.viewControllerAtIndex(0)
-                let viewControllers: NSArray = [startingViewController]
-                
-                self.setViewControllers(viewControllers as! [UIViewController], direction: UIPageViewControllerNavigationDirection.Forward, animated: true, completion: {(done: Bool) in
-                })
-                
-                NSLog("loaded!");
                 
             })
         })
